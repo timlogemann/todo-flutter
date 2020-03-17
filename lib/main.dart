@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todone/blocs/task/task_bloc.dart';
+import 'package:todone/blocs/task/task_index.dart';
 import 'package:todone/widgets/index.dart';
+import 'package:intl/intl.dart';
 // import 'package:todone/widgets/index.dart';
 
 void main() => runApp(BlocProvider<TaskBloc>(
@@ -78,19 +80,18 @@ class _HomePageState extends State<HomePage> {
               child: Container(
                 padding: EdgeInsets.fromLTRB(10, 40, 10, 0),
                 color: Theme.of(context).backgroundColor,
-                child: FutureBuilder(
-                    future: _taskBloc.toList(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        return ListView.separated(
-                          itemBuilder: (x, index) => Task(onPressed: null),
-                          separatorBuilder: (_, __) => Divider(),
-                          itemCount: snapshot.data,
-                        );
-                      } else {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                    }),
+                child: BlocBuilder<TaskBloc, TaskState>(
+                    builder: (BuildContext context, TaskState state) {
+                  if (state is TasksLoading) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  return ListView.separated(
+                    itemBuilder: (task, index) =>
+                        Task(onPressed: null, task: state.tasks[index]),
+                    separatorBuilder: (_, __) => Divider(),
+                    itemCount: state.tasks.length,
+                  );
+                }),
               ),
               flex: 3,
             ),
