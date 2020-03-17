@@ -17,7 +17,7 @@ class TasksInitial extends TaskState {
   String toString() => 'TaskInitial';
 }
 
-class TasksLoadings extends TaskState {
+class TasksLoading extends TaskState {
   @override
   String toString() => 'TasksLoading';
 }
