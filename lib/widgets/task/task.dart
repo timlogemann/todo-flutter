@@ -1,10 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:todone/models/index.dart' as Model;
 
 class Task extends StatelessWidget {
-  Task({@required this.onPressed});
-
   final GestureTapCallback onPressed;
+
+  final Model.Task task;
+
+  Task({@required this.onPressed, this.task});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +19,7 @@ class Task extends StatelessWidget {
             children: <Widget>[
               Container(
                 child: Text(
-                  'Dit is een todo',
+                  task.todo,
                   style: TextStyle(color: Colors.white),
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 5, vertical: 12),
@@ -27,7 +31,7 @@ class Task extends StatelessWidget {
             children: <Widget>[
               Container(
                 child: Text(
-                  '3 april 2020',
+                  new DateFormat('dd-MM-yyyy').format(task.dueDate),
                   style: TextStyle(color: Colors.white),
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 5, vertical: 12),
@@ -38,7 +42,7 @@ class Task extends StatelessWidget {
             children: <Widget>[
               Container(
                 child: Text(
-                  'project',
+                  task.project,
                   style: TextStyle(color: Colors.white),
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 5, vertical: 12),
@@ -49,7 +53,7 @@ class Task extends StatelessWidget {
             children: <Widget>[
               Container(
                 child: Text(
-                  'Notitie met uitleg',
+                  task.note,
                   style: TextStyle(color: Colors.white),
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 5, vertical: 12),
