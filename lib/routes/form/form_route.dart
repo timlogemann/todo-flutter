@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todone/widgets/forms/index.dart';
 
 class FormRoute extends StatefulWidget {
   FormRoute({Key key, this.title}) : super(key: key);
@@ -46,10 +47,7 @@ class _FormRouteState extends State<FormRoute> {
               child: Container(
                 padding: EdgeInsets.all(50),
                 color: Theme.of(context).backgroundColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[CircularProgressIndicator()],
-                ),
+                child: CreateTaskForm(),
               ),
             )
           ],
