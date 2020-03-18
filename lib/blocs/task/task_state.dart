@@ -4,9 +4,9 @@ import 'package:todone/models/index.dart';
 
 abstract class TaskState extends Equatable {
   final List<Task> tasks = [
-    Task('Duinzigt bellen', 'Woning', DateTime.utc(2020, 03, 17)),
+    Task('Duinzigt bellen', 'Woning', DateTime.utc(2020, 03, 17), '', 10),
     Task('Flutter leren', 'Development', DateTime.utc(2020, 03, 20),
-        'dat wil ik graag')
+        'dat wil ik graag', 15)
   ];
 
   TaskState([List props = const []]) : super(props);
