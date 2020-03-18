@@ -45,7 +45,7 @@ class _FormRouteState extends State<FormRoute> {
           children: <Widget>[
             Expanded(
               child: Container(
-                padding: EdgeInsets.all(50),
+                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
                 color: Theme.of(context).backgroundColor,
                 child: CreateTaskForm(),
               ),
