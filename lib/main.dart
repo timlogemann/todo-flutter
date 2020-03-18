@@ -35,6 +35,10 @@ class MyApp extends StatelessWidget {
             title: TextStyle(color: Color.fromARGB(255, 19, 22, 25)),
           )),
       darkTheme: ThemeData(
+          primaryIconTheme: IconThemeData(
+            color: Color.fromARGB(255, 230, 225, 222),
+            opacity: 0.8,
+          ),
           brightness: Brightness.dark,
           primaryColor: Color.fromARGB(255, 106, 150, 201),
           primaryColorDark: Color.fromARGB(255, 106, 150, 201),
@@ -55,6 +59,7 @@ class MyApp extends StatelessWidget {
       home: HomePage(title: 'Dashboard'),
       routes: <String, WidgetBuilder>{
         '/create': (BuildContext context) => FormRoute(title: 'Create Task'),
+        '/detail': (BuildContext context) => DetailRoute(),
       },
     );
   }

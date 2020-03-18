@@ -59,8 +59,15 @@ class _HomePageState extends State<HomePage> {
                     return Center(child: CircularProgressIndicator());
                   }
                   return ListView.separated(
-                    itemBuilder: (task, index) =>
-                        Task(onPressed: null, task: state.tasks[index]),
+                    itemBuilder: (_, index) => Task(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/detail',
+                            arguments: state.tasks[index],
+                          );
+                        },
+                        task: state.tasks[index]),
                     separatorBuilder: (_, __) => Divider(),
                     itemCount: state.tasks.length,
                   );
