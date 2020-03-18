@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
-import 'package:todone/models/task.dart';
 import 'task_state.dart';
 import 'task_event.dart';
 
