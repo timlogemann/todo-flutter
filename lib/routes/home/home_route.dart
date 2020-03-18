@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todone/blocs/task/task_bloc.dart';
 import 'package:todone/blocs/task/task_index.dart';
 import 'package:todone/widgets/index.dart';
-import 'package:todone/routes/index.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -73,8 +72,6 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Theme.of(context).bottomAppBarColor,
-        elevation: 5,
         child: Container(
           height: 60,
           child: Row(
@@ -84,8 +81,8 @@ class _HomePageState extends State<HomePage> {
               IconButton(
                 iconSize: 30.0,
                 padding: EdgeInsets.only(left: 28.0),
+                color: Theme.of(context).textTheme.body1.color,
                 icon: Icon(Icons.list),
-                color: Theme.of(context).accentColor,
                 onPressed: () {},
               ),
               // IconButton(
@@ -104,7 +101,7 @@ class _HomePageState extends State<HomePage> {
                 iconSize: 30.0,
                 padding: EdgeInsets.only(right: 28.0),
                 icon: Icon(Icons.search),
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).textTheme.body1.color,
                 onPressed: () {},
               )
             ],
