@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todone/blocs/task/task_bloc.dart';
 import 'package:todone/blocs/task/task_index.dart';
+import 'package:todone/models/index.dart' as Model;
 import 'package:todone/widgets/index.dart';
 
 class HomePage extends StatefulWidget {
@@ -59,15 +60,42 @@ class _HomePageState extends State<HomePage> {
                     return Center(child: CircularProgressIndicator());
                   }
                   return ListView.separated(
-                    itemBuilder: (_, index) => Task(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/detail',
-                            arguments: state.tasks[index],
+                    itemBuilder: (_, index) {
+                      final Model.Task task = state.tasks[index];
+
+                      return Dismissible(
+                        key: Key('${task.id}_$index'),
+                        onDismissed: (direction) {
+                          // Remove the item from the data source.
+                          // state.tasks.removeWhere((t) => t.id == task.id);
+                          _taskBloc.add(RemoveTaskEvent(taskId: task.id));
+                          // Show a snackbar. This snackbar could also contain "Undo" actions
+                          Scaffold.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Task removed'),
+                              action: SnackBarAction(
+                                  label: 'Undo',
+                                  onPressed: () {
+                                    _taskBloc.add(RestoreTaskEvent(
+                                      index: index,
+                                      task: task,
+                                    ));
+                                  }),
+                            ),
                           );
                         },
-                        task: state.tasks[index]),
+                        child: Task(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              '/detail',
+                              arguments: task,
+                            );
+                          },
+                          task: task,
+                        ),
+                      );
+                    },
                     separatorBuilder: (_, __) => Divider(),
                     itemCount: state.tasks.length,
                   );
@@ -92,18 +120,6 @@ class _HomePageState extends State<HomePage> {
                 icon: Icon(Icons.list),
                 onPressed: () {},
               ),
-              // IconButton(
-              //   iconSize: 30.0,
-              //   padding: EdgeInsets.only(right: 28.0),
-              //   icon: Icon(Icons.search),
-              //   onPressed: () {},
-              // ),
-              // IconButton(
-              //   iconSize: 30.0,
-              //   padding:  EdgeInsets.only(left: 28.0),
-              //   icon: Icon(Icons.notifications),
-              //   onPressed: () {},
-              // ),
               IconButton(
                 iconSize: 30.0,
                 padding: EdgeInsets.only(right: 28.0),
