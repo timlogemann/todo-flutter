@@ -18,15 +18,40 @@ class TasksInitial extends TaskState {
 }
 
 class TasksLoading extends TaskState {
+  final List<Task> tasks = [];
+
   @override
   String toString() => 'TasksLoading';
 }
 
-class AddTask extends TaskState {
-  final Task task;
+class TasksLoaded extends TaskState {
+  @override
+  String toString() => 'TasksLoaded';
+}
 
-  AddTask({@required this.task}) : super([task]);
+class TaskAdded extends TaskState {
+  final List<Task> tasks;
+
+  TaskAdded({@required this.tasks}) : super([tasks]);
 
   @override
-  String toString() => 'AddTask';
+  String toString() => 'TaskAdded ${tasks.length}';
+}
+
+class TaskUpdated extends TaskState {
+  final List<Task> tasks;
+
+  TaskUpdated({@required this.tasks}) : super([tasks]);
+
+  @override
+  String toString() => 'TaskUpdated ${tasks.length}';
+}
+
+class TaskRemoved extends TaskState {
+  final List<Task> tasks;
+
+  TaskRemoved({@required this.tasks}) : super([tasks]);
+
+  @override
+  String toString() => 'TaskRemoved ${tasks.length}';
 }

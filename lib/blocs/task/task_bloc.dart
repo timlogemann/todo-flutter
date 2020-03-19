@@ -14,18 +14,34 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   @override
   Stream<TaskState> mapEventToState(TaskEvent event) async* {
     if (event is AddTaskEvent) {
-      yield AddTask(task: event.task);
+      print('event');
+      print(event);
+      yield TaskAdded(tasks: [...state.tasks, event.task]);
+      yield TasksLoaded();
     }
 
     if (event is RemoveTaskEvent) {
-      // yield RemoveTask(taskId: event.task.id);
+      final tasks = [...state.tasks];
+
+      tasks.removeWhere((task) => task.id != event.taskId);
+
+      yield TaskRemoved(tasks: tasks);
+      yield TasksLoaded();
     }
+
     if (event is UpdateTaskEvent) {
-      // yield UpdateTask();
+      final index = state.tasks.indexWhere((task) => task.id == event.task.id);
+
+      final tasks = [...state.tasks];
+
+      tasks.replaceRange(index, index + 1, [event.task]);
+
+      yield TaskUpdated(tasks: tasks);
+      yield TasksLoaded();
     }
 
     if (event is ToggleTaskEvent) {
-      // yield ToggleTask();
+      // yield ToggleTask();The type 'AddTask' implied by the 'yield' expression must be assignable to 'Stream<TaskState>'
     }
   }
 }

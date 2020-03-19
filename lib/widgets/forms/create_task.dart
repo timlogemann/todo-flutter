@@ -20,8 +20,12 @@ class CreateTaskFormState extends State<CreateTaskForm> {
   // not a GlobalKey<CreateTaskFormState>.
   final _formKey = GlobalKey<FormState>();
   final today = new DateTime.now();
+
+  final todoCtl = TextEditingController();
+  final projectCtl = TextEditingController();
   final dateCtl = TextEditingController(
       text: DateFormat('dd-MM-yyyy').format(DateTime.now()));
+  final noteCtl = TextEditingController();
 
   @override
   void dispose() {
@@ -130,12 +134,26 @@ class CreateTaskFormState extends State<CreateTaskForm> {
                   if (_formKey.currentState.validate()) {
                     // If the form is valid, display a snackbar. In the real world,
                     // you'd often call a server or save the information in a database.
-                    // _taskBloc.dispatch(AddTaskEvent(task: new Task(todo, project, dueDate)))
+                    final todo = todoCtl.text;
+                    print('todo');
+                    print(todo);
+                    final project = projectCtl.text;
+                    final dueDate =
+                        DateFormat('dd-MM-yyyy').parse(dateCtl.text);
+                    final note = noteCtl.text;
 
-                    _formKey.currentState.save();
+                    _taskBloc.add(
+                      AddTaskEvent(
+                        task: new Task(todo, project, dueDate, note),
+                      ),
+                    );
 
-                    Scaffold.of(context).showSnackBar(
-                        SnackBar(content: Text('Processing Data')));
+                    Navigator.of(context).pop();
+
+                    // _formKey.currentState.save();
+
+                    // Scaffold.of(context).showSnackBar(
+                    //     SnackBar(content: Text('Processing Data')));
                   }
                 },
                 child: Text('Submit'),

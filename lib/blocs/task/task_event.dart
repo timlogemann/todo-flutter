@@ -15,11 +15,30 @@ class AddTaskEvent extends TaskEvent {
 
   @override
   String toString() =>
-      'LoginEvent: RequestLoginButtonPressed { todo: ${task.todo}, id: ${task.id}, dueDate: ${task.dueDate}, project: ${task.project} }';
+      'AddTaskEvent: creating task { todo: ${task.todo}, id: ${task.id}, dueDate: ${task.dueDate}, project: ${task.project} }';
 }
 
-class RemoveTaskEvent extends TaskEvent {}
+class RemoveTaskEvent extends TaskEvent {
+  final int taskId;
 
-class UpdateTaskEvent extends TaskEvent {}
+  RemoveTaskEvent({
+    @required this.taskId,
+  }) : super([taskId]);
+
+  @override
+  String toString() => 'RemoveTaskEvent: removing task with id: $taskId }';
+}
+
+class UpdateTaskEvent extends TaskEvent {
+  final Task task;
+
+  UpdateTaskEvent({
+    @required this.task,
+  }) : super([task]);
+
+  @override
+  String toString() =>
+      'UpdateTaskEvent: updating task { todo: ${task.todo}, id: ${task.id}, dueDate: ${task.dueDate}, project: ${task.project} }';
+}
 
 class ToggleTaskEvent extends TaskEvent {}
