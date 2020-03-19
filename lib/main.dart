@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todone/blocs/task/task_bloc.dart';
 import 'package:todone/blocs/task/task_index.dart';
 import 'package:todone/routes/index.dart';
+import 'styles/colors.dart';
 
 void main() => runApp(BlocProvider<TaskBloc>(
       create: (context) => TaskBloc(),
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Color.fromARGB(255, 75, 147, 255),
           primaryColorDark: Color.fromARGB(255, 106, 150, 201),
           primaryColorLight: Color.fromARGB(255, 106, 150, 201),
+          splashColor: Color.fromARGB(255, 245, 245, 245),
           backgroundColor: Color.fromARGB(255, 245, 245, 245),
           cardTheme: CardTheme(
             color: Color.fromARGB(255, 255, 255, 255),
@@ -30,9 +32,9 @@ class MyApp extends StatelessWidget {
           bottomAppBarTheme: BottomAppBarTheme(
               color: Color.fromARGB(255, 255, 255, 255), elevation: 6.0),
           primaryTextTheme: TextTheme(
-            headline: TextStyle(color: Color.fromARGB(255, 19, 22, 25)),
-            body1: TextStyle(color: Color.fromARGB(255, 19, 22, 25)),
-            title: TextStyle(color: Color.fromARGB(255, 19, 22, 25)),
+            headline: TextStyle(color: ToDoneColors.darkGrey),
+            body1: TextStyle(color: ToDoneColors.darkGrey),
+            title: TextStyle(color: ToDoneColors.darkGrey),
           )),
       darkTheme: ThemeData(
           primaryIconTheme: IconThemeData(
@@ -43,7 +45,8 @@ class MyApp extends StatelessWidget {
           primaryColor: Color.fromARGB(255, 106, 150, 201),
           primaryColorDark: Color.fromARGB(255, 106, 150, 201),
           primaryColorLight: Color.fromARGB(255, 106, 150, 201),
-          backgroundColor: Color.fromARGB(255, 19, 22, 25),
+          splashColor: ToDoneColors.darkGrey,
+          backgroundColor: ToDoneColors.darkGrey,
           cardTheme: CardTheme(
             color: Color.fromARGB(255, 54, 63, 71),
             elevation: 2.0,
