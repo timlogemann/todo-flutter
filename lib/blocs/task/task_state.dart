@@ -25,6 +25,10 @@ class TasksLoading extends TaskState {
 }
 
 class TasksLoaded extends TaskState {
+  final List<Task> tasks;
+
+  TasksLoaded({@required this.tasks}) : super([tasks]);
+
   @override
   String toString() => 'TasksLoaded';
 }
@@ -54,4 +58,13 @@ class TaskRemoved extends TaskState {
 
   @override
   String toString() => 'TaskRemoved ${tasks.length}';
+}
+
+class TaskRestored extends TaskState {
+  final List<Task> tasks;
+
+  TaskRestored({@required this.tasks}) : super([tasks]);
+
+  @override
+  String toString() => 'TaskRestored ${tasks.length}';
 }

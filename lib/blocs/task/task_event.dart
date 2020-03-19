@@ -41,4 +41,18 @@ class UpdateTaskEvent extends TaskEvent {
       'UpdateTaskEvent: updating task { todo: ${task.todo}, id: ${task.id}, dueDate: ${task.dueDate}, project: ${task.project} }';
 }
 
+class RestoreTaskEvent extends TaskEvent {
+  final int index;
+  final Task task;
+
+  RestoreTaskEvent({
+    @required this.index,
+    @required this.task,
+  }) : super([index, task]);
+
+  @override
+  String toString() =>
+      'RestoreTaskEvent: restoring task ${task.todo} at index $index';
+}
+
 class ToggleTaskEvent extends TaskEvent {}

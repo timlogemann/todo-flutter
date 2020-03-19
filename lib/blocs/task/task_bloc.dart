@@ -17,16 +17,16 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       print('event');
       print(event);
       yield TaskAdded(tasks: [...state.tasks, event.task]);
-      yield TasksLoaded();
+      yield TasksLoaded(tasks: state.tasks);
     }
 
     if (event is RemoveTaskEvent) {
       final tasks = [...state.tasks];
 
-      tasks.removeWhere((task) => task.id != event.taskId);
+      tasks.removeWhere((task) => task.id == event.taskId);
 
       yield TaskRemoved(tasks: tasks);
-      yield TasksLoaded();
+      yield TasksLoaded(tasks: state.tasks);
     }
 
     if (event is UpdateTaskEvent) {
@@ -37,11 +37,20 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       tasks.replaceRange(index, index + 1, [event.task]);
 
       yield TaskUpdated(tasks: tasks);
-      yield TasksLoaded();
+      yield TasksLoaded(tasks: state.tasks);
     }
 
     if (event is ToggleTaskEvent) {
       // yield ToggleTask();The type 'AddTask' implied by the 'yield' expression must be assignable to 'Stream<TaskState>'
+    }
+
+    if (event is RestoreTaskEvent) {
+      final tasks = [...state.tasks];
+
+      tasks.insert(event.index, event.task);
+
+      yield TaskRestored(tasks: tasks);
+      yield TasksLoaded(tasks: state.tasks);
     }
   }
 }
