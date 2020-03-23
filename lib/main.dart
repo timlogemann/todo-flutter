@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todone/blocs/task/task_bloc.dart';
-import 'package:todone/blocs/task/task_index.dart';
 import 'package:todone/routes/index.dart';
+import 'package:todone/blocs/index.dart';
 import 'styles/colors.dart';
 
 void main() => runApp(BlocProvider<TaskBloc>(
@@ -15,49 +14,63 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    BlocSupervisor.delegate = Delegate();
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
           brightness: Brightness.light,
-          primaryColor: Color.fromARGB(255, 75, 147, 255),
-          primaryColorDark: Color.fromARGB(255, 106, 150, 201),
-          primaryColorLight: Color.fromARGB(255, 106, 150, 201),
-          splashColor: Color.fromARGB(255, 245, 245, 245),
-          backgroundColor: Color.fromARGB(255, 245, 245, 245),
+          primaryColor: ToDoneColors.brightBlue,
+          primaryColorDark: ToDoneColors.brightBlue,
+          primaryColorLight: ToDoneColors.brightBlue,
+          splashColor: ToDoneColors.almostWhite,
+          backgroundColor: ToDoneColors.almostWhite,
           cardTheme: CardTheme(
-            color: Color.fromARGB(255, 255, 255, 255),
+            color: Colors.white,
             elevation: 2.0,
           ),
-          accentColor: Color.fromARGB(255, 54, 63, 71),
+          appBarTheme: AppBarTheme(
+            brightness: Brightness.light,
+            iconTheme: IconThemeData(color: ToDoneColors.darkGrey),
+            actionsIconTheme: IconThemeData(color: ToDoneColors.darkGrey),
+          ),
+          accentColor: ToDoneColors.blueishGrey,
           bottomAppBarTheme: BottomAppBarTheme(
-              color: Color.fromARGB(255, 255, 255, 255), elevation: 6.0),
+            color: Colors.white,
+            elevation: 6.0,
+          ),
           primaryTextTheme: TextTheme(
             headline: TextStyle(color: ToDoneColors.darkGrey),
             body1: TextStyle(color: ToDoneColors.darkGrey),
             title: TextStyle(color: ToDoneColors.darkGrey),
           )),
       darkTheme: ThemeData(
+          appBarTheme: AppBarTheme(
+            brightness: Brightness.dark,
+            iconTheme: IconThemeData(color: ToDoneColors.whiteish),
+            actionsIconTheme: IconThemeData(color: ToDoneColors.whiteish),
+          ),
           primaryIconTheme: IconThemeData(
-            color: Color.fromARGB(255, 230, 225, 222),
+            color: ToDoneColors.whiteish,
             opacity: 0.8,
           ),
           brightness: Brightness.dark,
-          primaryColor: Color.fromARGB(255, 106, 150, 201),
-          primaryColorDark: Color.fromARGB(255, 106, 150, 201),
-          primaryColorLight: Color.fromARGB(255, 106, 150, 201),
+          primaryColor: ToDoneColors.fadedBlue,
+          primaryColorDark: ToDoneColors.fadedBlue,
+          primaryColorLight: ToDoneColors.fadedBlue,
           splashColor: ToDoneColors.darkGrey,
           backgroundColor: ToDoneColors.darkGrey,
           cardTheme: CardTheme(
-            color: Color.fromARGB(255, 54, 63, 71),
+            color: ToDoneColors.blueishGrey,
             elevation: 2.0,
           ),
-          accentColor: Color.fromARGB(255, 54, 63, 71),
+          accentColor: ToDoneColors.blueishGrey,
           bottomAppBarTheme: BottomAppBarTheme(
               color: Color.fromARGB(255, 26, 30, 34), elevation: 6.0),
           primaryTextTheme: TextTheme(
-            headline: TextStyle(color: Color.fromARGB(255, 230, 225, 222)),
-            body1: TextStyle(color: Color.fromARGB(255, 230, 225, 222)),
-            title: TextStyle(color: Color.fromARGB(255, 230, 225, 222)),
+            headline: TextStyle(color: ToDoneColors.whiteish),
+            body1: TextStyle(color: ToDoneColors.whiteish),
+            title: TextStyle(color: ToDoneColors.whiteish),
           )),
       home: HomePage(title: 'Dashboard'),
       routes: <String, WidgetBuilder>{

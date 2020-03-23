@@ -1,12 +1,23 @@
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:todone/models/index.dart';
+import 'package:uuid/uuid.dart';
 
 abstract class TaskState extends Equatable {
   final List<Task> tasks = [
-    Task('Duinzigt bellen', 'Woning', DateTime.utc(2020, 03, 17), '', 10),
-    Task('Flutter leren', 'Development', DateTime.utc(2020, 03, 20),
-        'dat wil ik graag', 15)
+    Task(
+      'Duinzigt bellen',
+      project: 'Woning',
+      dueDate: DateTime.utc(2020, 03, 17),
+      id: Uuid().v1(),
+    ),
+    Task(
+      'Flutter leren',
+      project: 'Development',
+      dueDate: DateTime.utc(2020, 03, 20),
+      note: 'dat wil ik graag',
+      id: Uuid().v1(),
+    )
   ];
 
   TaskState([List props = const []]) : super(props);
@@ -16,6 +27,8 @@ class TasksInitial extends TaskState {
   @override
   String toString() => 'TaskInitial';
 }
+
+class TasksLoadFailure extends TaskState {}
 
 class TasksLoading extends TaskState {
   final List<Task> tasks = [];
@@ -27,44 +40,56 @@ class TasksLoading extends TaskState {
 class TasksLoaded extends TaskState {
   final List<Task> tasks;
 
-  TasksLoaded({@required this.tasks}) : super([tasks]);
+  TasksLoaded([this.tasks = const []]) : super([tasks]);
 
   @override
-  String toString() => 'TasksLoaded';
+  List<Object> get props => [tasks];
+
+  @override
+  String toString() => 'TasksLoaded { todos: $tasks }';
 }
 
-class TaskAdded extends TaskState {
+class TasksNotLoaded extends TaskState {
   final List<Task> tasks;
 
-  TaskAdded({@required this.tasks}) : super([tasks]);
+  TasksNotLoaded({@required this.tasks}) : super([tasks]);
 
   @override
-  String toString() => 'TaskAdded ${tasks.length}';
+  String toString() => 'TasksNotLoaded';
 }
 
-class TaskUpdated extends TaskState {
-  final List<Task> tasks;
+// class TaskAdded extends TaskState {
+//   final List<Task> tasks;
 
-  TaskUpdated({@required this.tasks}) : super([tasks]);
+//   TaskAdded({@required this.tasks}) : super([tasks]);
 
-  @override
-  String toString() => 'TaskUpdated ${tasks.length}';
-}
+//   @override
+//   String toString() => 'TaskAdded ${tasks.length}';
+// }
 
-class TaskRemoved extends TaskState {
-  final List<Task> tasks;
+// class TaskUpdated extends TaskState {
+//   final List<Task> tasks;
 
-  TaskRemoved({@required this.tasks}) : super([tasks]);
+//   TaskUpdated({@required this.tasks}) : super([tasks]);
 
-  @override
-  String toString() => 'TaskRemoved ${tasks.length}';
-}
+//   @override
+//   String toString() => 'TaskUpdated ${tasks.length}';
+// }
 
-class TaskRestored extends TaskState {
-  final List<Task> tasks;
+// class TaskRemoved extends TaskState {
+//   final List<Task> tasks;
 
-  TaskRestored({@required this.tasks}) : super([tasks]);
+//   TaskRemoved({@required this.tasks}) : super([tasks]);
 
-  @override
-  String toString() => 'TaskRestored ${tasks.length}';
-}
+//   @override
+//   String toString() => 'TaskRemoved ${tasks.length}';
+// }
+
+// class TaskRestored extends TaskState {
+//   final List<Task> tasks;
+
+//   TaskRestored({@required this.tasks}) : super([tasks]);
+
+//   @override
+//   String toString() => 'TaskRestored ${tasks.length}';
+// }

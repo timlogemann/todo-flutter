@@ -4,6 +4,9 @@ import 'package:todone/models/index.dart';
 
 abstract class TaskEvent extends Equatable {
   TaskEvent([List props = const []]) : super(props);
+
+  @override
+  List<Object> get props => [];
 }
 
 class AddTaskEvent extends TaskEvent {
@@ -14,12 +17,15 @@ class AddTaskEvent extends TaskEvent {
   }) : super([task]);
 
   @override
+  List<Object> get props => [task];
+
+  @override
   String toString() =>
       'AddTaskEvent: creating task { todo: ${task.todo}, id: ${task.id}, dueDate: ${task.dueDate}, project: ${task.project} }';
 }
 
 class RemoveTaskEvent extends TaskEvent {
-  final int taskId;
+  final String taskId;
 
   RemoveTaskEvent({
     @required this.taskId,
@@ -30,15 +36,18 @@ class RemoveTaskEvent extends TaskEvent {
 }
 
 class UpdateTaskEvent extends TaskEvent {
-  final Task task;
+  final Task updatedTask;
 
   UpdateTaskEvent({
-    @required this.task,
-  }) : super([task]);
+    @required this.updatedTask,
+  }) : super([updatedTask]);
+
+  @override
+  List<Object> get props => [updatedTask];
 
   @override
   String toString() =>
-      'UpdateTaskEvent: updating task { todo: ${task.todo}, id: ${task.id}, dueDate: ${task.dueDate}, project: ${task.project} }';
+      'UpdateTaskEvent: updating task { todo: ${updatedTask.todo}, id: ${updatedTask.id}, dueDate: ${updatedTask.dueDate}, project: ${updatedTask.project} }';
 }
 
 class RestoreTaskEvent extends TaskEvent {

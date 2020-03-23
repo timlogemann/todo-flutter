@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todone/blocs/task/task_bloc.dart';
-import 'package:todone/blocs/task/task_index.dart';
+import 'package:todone/blocs/task/index.dart';
 import 'package:todone/models/index.dart' as Model;
 import 'package:todone/widgets/index.dart';
 
@@ -52,54 +52,9 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             Expanded(
               child: Container(
-                padding: EdgeInsets.fromLTRB(10, 40, 10, 0),
+                padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
                 color: Theme.of(context).backgroundColor,
-                child: BlocBuilder<TaskBloc, TaskState>(
-                    builder: (BuildContext context, TaskState state) {
-                  if (state is TasksLoading) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  return ListView.separated(
-                    itemBuilder: (_, index) {
-                      final Model.Task task = state.tasks[index];
-
-                      return Dismissible(
-                        key: Key('${task.id}_$index'),
-                        onDismissed: (direction) {
-                          // Remove the item from the data source.
-                          // state.tasks.removeWhere((t) => t.id == task.id);
-                          _taskBloc.add(RemoveTaskEvent(taskId: task.id));
-                          // Show a snackbar. This snackbar could also contain "Undo" actions
-                          Scaffold.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Task removed'),
-                              action: SnackBarAction(
-                                  label: 'Undo',
-                                  onPressed: () {
-                                    _taskBloc.add(RestoreTaskEvent(
-                                      index: index,
-                                      task: task,
-                                    ));
-                                  }),
-                            ),
-                          );
-                        },
-                        child: Task(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              '/detail',
-                              arguments: task,
-                            );
-                          },
-                          task: task,
-                        ),
-                      );
-                    },
-                    separatorBuilder: (_, __) => Divider(),
-                    itemCount: state.tasks.length,
-                  );
-                }),
+                child: TaskList(bloc: _taskBloc),
               ),
               flex: 3,
             ),
@@ -144,6 +99,46 @@ class _HomePageState extends State<HomePage> {
         tooltip: 'Increment',
         elevation: 2.0,
         backgroundColor: Theme.of(context).primaryColor,
+      ),
+    );
+  }
+
+  Widget ListView(BuildContext context) {}
+
+  _dismissableCompleted() {
+    return Container(
+      color: Colors.blue,
+      padding: EdgeInsets.only(left: 20),
+      child: Align(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Icon(
+              Icons.done,
+              color: Colors.white,
+            ),
+          ],
+        ),
+        alignment: Alignment.centerLeft,
+      ),
+    );
+  }
+
+  _dismissableDeleted() {
+    return Container(
+      color: Colors.red,
+      padding: EdgeInsets.only(right: 20),
+      child: Align(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Icon(
+              Icons.delete_forever,
+              color: Colors.white,
+            ),
+          ],
+        ),
+        alignment: Alignment.centerRight,
       ),
     );
   }

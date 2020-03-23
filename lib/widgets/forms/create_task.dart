@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:todone/blocs/task/task_index.dart';
+import 'package:todone/blocs/task/index.dart';
 import 'package:todone/models/index.dart';
 
 class CreateTaskForm extends StatefulWidget {
@@ -144,7 +144,12 @@ class CreateTaskFormState extends State<CreateTaskForm> {
 
                 _taskBloc.add(
                   AddTaskEvent(
-                    task: new Task(todo, project, dueDate, note),
+                    task: new Task(
+                      todo,
+                      project: project,
+                      dueDate: dueDate,
+                      note: note,
+                    ),
                   ),
                 );
 

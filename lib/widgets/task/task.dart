@@ -32,6 +32,7 @@ class _TaskState extends State<Task> {
         transitionOnUserGestures: true,
         tag: 'taskHero' + widget.task.id.toString(),
         child: Card(
+          margin: EdgeInsets.symmetric(horizontal: 10),
           child: Container(
             padding: EdgeInsets.all(5),
             child: Column(children: <Widget>[
