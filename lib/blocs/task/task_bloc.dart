@@ -1,20 +1,24 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:todone/blocs/task/task_repository.dart';
 import 'package:todone/models/index.dart';
 import 'task_state.dart';
 import 'task_event.dart';
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
-  TaskBloc();
+  final TaskRepository taskRepository;
+
+  TaskBloc({@required this.taskRepository});
 
   @override
-  TaskState get initialState => TasksInitial();
+  TaskState get initialState => TasksLoading();
 
   @override
   Stream<TaskState> mapEventToState(TaskEvent event) async* {
     print(event.toString());
-    if (event is TasksLoaded) {
-      // yield* _mapTasksLoadedToState();
+    if (event is TasksLoadedEvent) {
+      yield* _mapTasksLoadedToState();
     } else if (event is AddTaskEvent) {
       yield* _mapTaskAddedToState(event);
     } else if (event is UpdateTaskEvent) {
@@ -26,27 +30,27 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     }
   }
 
-  // Stream<TaskState> _mapTasksLoadedToState() async* {
-  //   try {
-  //     final todos = await this.tasksRepository.loadTodos();
-  //     yield TasksLoaded(
-  //       todos.map(Todo.fromEntity).toList(),
-  //     );
-  //   } catch (_) {
-  //     yield TodosLoadFailure();
-  //   }
-  // }
+  Stream<TaskState> _mapTasksLoadedToState() async* {
+    try {
+      final tasks = await this.taskRepository.loadTasks();
+      yield TasksLoaded(
+        tasks.map(Task.fromEntity).toList(),
+      );
+    } catch (_) {
+      yield TasksLoadedFailed();
+    }
+  }
 
   Stream<TaskState> _mapTaskAddedToState(AddTaskEvent event) async* {
-    if (state is TasksLoaded || state is TasksInitial) {
+    if (state is TasksLoaded) {
       final List<Task> updatedTasks = List.from(state.tasks)..add(event.task);
       yield TasksLoaded(updatedTasks);
-      // _saveTodos(updatedTasks);
+      _saveTasks(updatedTasks);
     }
   }
 
   Stream<TaskState> _mapTaskUpdatedToState(UpdateTaskEvent event) async* {
-    if (state is TasksLoaded || state is TasksInitial) {
+    if (state is TasksLoaded) {
       final List<Task> updatedTasks = state.tasks.map((todo) {
         return todo.id == event.updatedTask.id ? event.updatedTask : todo;
       }).toList();
@@ -54,24 +58,24 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       print(updatedTasks.toString());
 
       yield TasksLoaded(updatedTasks);
-      // _saveTodos(updatedTasks);
+      _saveTasks(updatedTasks);
     }
   }
 
   Stream<TaskState> _mapTaskDeletedToState(RemoveTaskEvent event) async* {
-    if (state is TasksLoaded || state is TasksInitial) {
+    if (state is TasksLoaded) {
       final updatedTasks =
           state.tasks.where((todo) => todo.id != event.taskId).toList();
 
       print(updatedTasks.toString());
 
       yield TasksLoaded(updatedTasks);
-      // _saveTodos(updatedTasks);
+      _saveTasks(updatedTasks);
     }
   }
 
   Stream<TaskState> _mapTaskRestoredToState(RestoreTaskEvent event) async* {
-    if (state is TasksLoaded || state is TasksInitial) {
+    if (state is TasksLoaded) {
       final updatedTasks = state.tasks.toList();
 
       updatedTasks.insert(event.index, event.task);
@@ -79,12 +83,18 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       print(updatedTasks.toString());
 
       yield TasksLoaded(updatedTasks);
-      // _saveTodos(updatedTasks);
+      _saveTasks(updatedTasks);
     }
   }
 
+  Future _saveTasks(List<Task> tasks) {
+    return taskRepository.saveTasks(
+      tasks.map((task) => task.toEntity()).toList(),
+    );
+  }
+
   // Stream<TaskState> _mapToggleAllToState() async* {
-  //   if (state is TasksLoaded || state is TasksInitial) {
+  //   if (state is TasksLoaded) {
   //     final allComplete =
   //         state.tasks.every((task) => task.completed);
   //     final List<Task> updatedTasks = state
@@ -92,20 +102,20 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   //         .map((task) => task.copyWith(complete: !allComplete))
   //         .toList();
   //     yield TasksLoaded(updatedTasks);
-  //     // _saveTodos(updatedTasks);
+  //     _saveTasks(updatedTasks);
   //   }
   // }
 
   // Stream<TaskState> _mapClearCompletedToState() async* {
-  //   if (state is TasksLoaded || state is TasksInitial) {
+  //   if (state is TasksLoaded) {
   //     final List<Todo> updatedTasks =
   //         state.tasks.where((todo) => !todo.complete).toList();
   //     yield TasksLoaded(updatedTasks);
-  //     // _saveTodos(updatedTasks);
+  //     _saveTasks(updatedTasks);
   //   }
   // }
 
-  // Future _saveTodos(List<Todo> todos) {
+  // Future _saveTasks(List<Todo> todos) {
   // return todosRepository.saveTodos(
   //   todos.map((todo) => todo.toEntity()).toList(),
   // );

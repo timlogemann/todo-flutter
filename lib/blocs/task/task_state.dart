@@ -4,29 +4,15 @@ import 'package:todone/models/index.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class TaskState extends Equatable {
-  final List<Task> tasks = [
-    Task(
-      'Duinzigt bellen',
-      project: 'Woning',
-      dueDate: DateTime.utc(2020, 03, 17),
-      id: Uuid().v1(),
-    ),
-    Task(
-      'Flutter leren',
-      project: 'Development',
-      dueDate: DateTime.utc(2020, 03, 20),
-      note: 'dat wil ik graag',
-      id: Uuid().v1(),
-    )
-  ];
+  final List<Task> tasks = [];
 
   TaskState([List props = const []]) : super(props);
 }
 
-class TasksInitial extends TaskState {
-  @override
-  String toString() => 'TaskInitial';
-}
+// class TasksInitial extends TaskState {
+//   @override
+//   String toString() => 'TaskInitial';
+// }
 
 class TasksLoadFailure extends TaskState {}
 
@@ -49,14 +35,7 @@ class TasksLoaded extends TaskState {
   String toString() => 'TasksLoaded { todos: $tasks }';
 }
 
-class TasksNotLoaded extends TaskState {
-  final List<Task> tasks;
-
-  TasksNotLoaded({@required this.tasks}) : super([tasks]);
-
-  @override
-  String toString() => 'TasksNotLoaded';
-}
+class TasksLoadedFailed extends TaskState {}
 
 // class TaskAdded extends TaskState {
 //   final List<Task> tasks;
