@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todone/blocs/task/task_bloc.dart';
 import 'package:todone/blocs/task/index.dart';
-import 'package:todone/models/index.dart' as Model;
 import 'package:todone/widgets/index.dart';
 
 class HomePage extends StatefulWidget {
@@ -99,46 +98,6 @@ class _HomePageState extends State<HomePage> {
         tooltip: 'Increment',
         elevation: 2.0,
         backgroundColor: Theme.of(context).primaryColor,
-      ),
-    );
-  }
-
-  Widget ListView(BuildContext context) {}
-
-  _dismissableCompleted() {
-    return Container(
-      color: Colors.blue,
-      padding: EdgeInsets.only(left: 20),
-      child: Align(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Icon(
-              Icons.done,
-              color: Colors.white,
-            ),
-          ],
-        ),
-        alignment: Alignment.centerLeft,
-      ),
-    );
-  }
-
-  _dismissableDeleted() {
-    return Container(
-      color: Colors.red,
-      padding: EdgeInsets.only(right: 20),
-      child: Align(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Icon(
-              Icons.delete_forever,
-              color: Colors.white,
-            ),
-          ],
-        ),
-        alignment: Alignment.centerRight,
       ),
     );
   }

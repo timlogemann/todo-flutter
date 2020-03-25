@@ -1,7 +1,5 @@
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:todone/models/index.dart';
-import 'package:uuid/uuid.dart';
 
 abstract class TaskState extends Equatable {
   final List<Task> tasks = [];
